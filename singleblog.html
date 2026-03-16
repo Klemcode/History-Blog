@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Blog</title>
+</head>
+<body>
+<h1>Single Blog Page</h1>
+    <div id="display"></div>
+    
+</body>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDcudItAwVIumhNwU9wgbBqXpC45fGgp8w",
+    authDomain: "klemcode.firebaseapp.com",
+    projectId: "klemcode",
+    storageBucket: "klemcode.firebasestorage.app",
+    messagingSenderId: "59149627541",
+    appId: "1:59149627541:web:2e30ff389ac4b50be02b9c"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app)
+
+  console.log(db, app);
+
+  const urlparams = new URLSearchParams(window.location.search.substring(1))
+  const blogId= urlparams.get("id")
+  let docRef;
+  if(!blogId){
+    alert('Post not found')
+  }else{
+    docRef=doc(db, "klemblog", blogId)
+  }
+  console.log(urlparams);
+
+async function getSingleBlog() {
+  try {
+
+    const blogSnap = await getDoc(docRef);
+
+    const blog = { id: blogSnap.id, ...blogSnap.data() };
+
+    console.log(blog);
+
+    const display = document.getElementById("display");
+
+    display.innerHTML = `
+    
+    <div style="border:1px solid green; width:700px; padding:25px; margin:20px auto; border-radius:4%">
+    
+      <img src="${blog.image}" style="width:100%; border-radius:6px">
+
+      <h2>${blog.title}</h2>
+
+      <p><strong>Author:</strong> ${blog.author}</p>
+
+      <p>${blog.content}</p>
+
+      <p>${blog.isPublished ? "Published" : "Not Yet Published"}</p>
+
+    </div>
+    
+    `;
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+}
+
+getSingleBlog();
+
+  
+  
+</script>
+</html>

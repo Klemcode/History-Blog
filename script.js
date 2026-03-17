@@ -19,23 +19,22 @@
   const app = initializeApp(firebaseConfig);
   const db= getFirestore(app)
 
-  console.log(db);
 
   const colRef = collection(db, "klemblog");
- console.log(colRef);  
+  
 const blogArr=[];
 
 async function getAllBlogs() {
     try {
         
         const blogs= await getDocs(colRef)
-        console.log(blogs);
+       
 
         blogs.forEach((element)=> {
             
             const data={id: element.id, ...element.data()}
             blogArr.push(data)
-            console.log(blogArr);
+           
         });
         
     
@@ -47,12 +46,13 @@ blogArr.forEach((blog)=>{
  display.innerHTML +=`
     <div style="border: 1px solid green; width:500px; padding=25px; margin: 10px; border-radius:4%">
 
-    <img src="${blog.image}" Alt="" style="width:400px; border-radius:5%">
+    <img src="${blog.image}" Alt="" style="width:495px; border-radius:5%; height:400px">
      <h3 style="padding=10px; margin: 6px">Author: ${blog.author}</h3>
-    <h1 style="padding=10px; margin: 6px"><a href="./singleblog.html?id=${blog.id}"> ${blog.title}</a></h1>
-    <p style="padding=10px; margin: 6px">${blog.content}</p>
+    <h1 style="padding=10px; margin: 6px font-size:20px"><a href="./singleblog.html?id=${blog.id}"> ${blog.title}</a></h1>
+    <p style="padding=10px; margin: 6px">${blog.content.slice(0, 100)}...</p>
+    <p>Readers: ${blog.likes}</p>
     <p style="padding=10px; margin: 6px">${blog.isPublished ? "Published" : "Not Yet Published" }</p>
-   
+  
     
     </div>
  `

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Authors Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  </head>
+  <body>
+    <h1 class="text-success">Authors Page!</h1>
+    
+    <form class="container" id="addBlog">
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Image URL</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="image" required>
+    <div id="emailHelp" class="form-text">This image show at the top of your blog</div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Title</label>
+    <input type="text" class="form-control" id="exampleInputPassword1" name="title" required>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">Content</label>
+    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="content" required>
+    
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Author</label>
+    <input type="text" class="form-control" id="exampleInputPassword1" name="author" required>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Likes</label>
+    <input type="number" class="form-control" id="exampleInputPassword1" name="likes" required>
+  </div>
+  
+  <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="isPublished" required>
+    <label class="form-check-label" for="exampleCheck1">Published</label>
+  </div>
+  <button type="submit" class="btn btn-primary">Create Post</button>
+</form>
+
+
+
+
+
+
+
+  </body>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyDcudItAwVIumhNwU9wgbBqXpC45fGgp8w",
+    authDomain: "klemcode.firebaseapp.com",
+    projectId: "klemcode",
+    storageBucket: "klemcode.firebasestorage.app",
+    messagingSenderId: "59149627541",
+    appId: "1:59149627541:web:2e30ff389ac4b50be02b9c"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const colRef = collection(db, "klemblog");
+
+ 
+const addBlog= document.getElementById('addBlog')
+
+
+addBlog.addEventListener("submit", async(event)=>{
+  event.preventDefault();
+  createBlog();
+  alert("Blog created successfully")
+
+})
+async function createBlog() {
+  let formData= {
+    image : addBlog.image.value,
+    content: addBlog.content.value,
+    title: addBlog.title.value,
+    likes: addBlog.likes.value,
+    author: addBlog.author.value,
+    isPublished: addBlog.isPublished.checked ? true : false
+  }
+
+
+try {
+  const docRef= await addDoc(colRef, formData)
+
+   
+    
+
+  
+} catch (error) {
+
+  console.log(error);
+
+  
+  
+  
+}
+}
+
+
+
+
+
+
+  
+</script>
+
+
+  <!-- boostrap js -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</html>
